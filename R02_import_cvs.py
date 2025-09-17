@@ -73,10 +73,10 @@ for i, edge in enumerate(net.edges):
     edge['id'] = i  # id único
 
 #4_ Exportar HTML inicial
-net.write_html("./rede3.html")
+net.write_html("./index.html")
 
 # ---------- Injetar painel + JS ----------
-html_path = "./rede3.html"
+html_path = "./index.html"
 
 # JSONs para injetar
 agentes_json = json.dumps(agentes)
