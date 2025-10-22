@@ -1,13 +1,10 @@
 from pathlib import Path
 import csv
 import networkx as nx
-from pyvis.network import Network
-import json
-import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+from matplotlib.font_manager import FontProperties
 
-#1_ Importar CSV
+# 1. Importar CSV
 arestas = Path('./R02_Arestas.csv').read_text().splitlines()
 reader = csv.reader(arestas)
 header_row = next(reader)
@@ -28,54 +25,11 @@ for row in reader:
     tipo_de_agente = row[7]
     tipo_de_cada_agente.append(tipo_de_agente)
 
-#2_ Construir rede networkx
-G = nx.Graph()
+# 2. Construir rede NetworkX
 edge_list = list(zip(agentes, conexoes))
 G = nx.from_edgelist(edge_list)
 
-#3_ PyVis
-net = Network(notebook=False, height='100vh', width='100%', bgcolor='#ffffff', font_color='black')
-net.from_nx(G)
-
-# cores iniciais (visão geral)
-for node in G.nodes():
-    grau = G.degree[node]
-    if node in agentes:
-        cor = '#6a1b9a'
-        tamanho = grau/2
-    elif node in conexoes:
-        cor = '#f5b041'
-        tamanho = 10
-    else:
-        cor = 'gray'
-        tamanho = 10
-
-    for n in net.nodes:
-        if n['id'] == node:
-            n['color'] = cor
-            n['size'] = tamanho
-            n['title'] = f"{node} | conexões: {grau}"
-            break
-
-# Arestas: cor por tipo de conexão
-cores_por_conexao = {
-    "parceria em projeto": "#d8be3c",
-    "financiamento": "#e83010",
-    "membro": "#9327d6",
-    "coleta de dados": "#5983c6",
-}
-for i, edge in enumerate(net.edges):
-    if i < len(tipo_de_conexoes):
-        tipo = tipo_de_conexoes[i].strip().lower()
-        cor = cores_por_conexao.get(tipo, "#999999")
-        edge['color'] = cor
-        edge['title'] = f"Tipo de conexão: {tipo.title()}"
-    else:
-        edge['color'] = "#cccccc"
-        edge['title'] = "Tipo de conexão: desconhecido"
-    edge['id'] = i  # id único
-
-#MEDIDAS REDE
+# 3. Cálculo das métricas
 num_nodes = G.number_of_nodes()
 num_arestas = G.number_of_edges()
 grau_medio = sum(dict(G.degree()).values()) / G.number_of_nodes()
@@ -83,161 +37,177 @@ densidade = nx.density(G)
 comp_desconectados = nx.number_connected_components(G)
 nos_maior_componente = len(max(nx.connected_components(G), key=len))
 centralidade = nx.degree_centrality(G)
-# Nó com MAIOR centralidade
 maior_no = max(centralidade, key=centralidade.get)
 maior_valor = centralidade[maior_no]
-# Nó com MENOR centralidade
 menor_no = min(centralidade, key=centralidade.get)
 menor_valor = centralidade[menor_no]
-# Calcular betweenness
-#Apenas para os agentes de interesse (deixa lento)
-'''betweenness = {} #só entre os agentes. O resultado eh 0.0 para todos
-for n in agentes:
-    valor = nx.betweenness_centrality_subset(G, sources=[n], targets=set(G.nodes()) - {n})[n]
-    betweenness[n] = valor'''
-#calcular tudo e selecionar os cinco com maior valor
 betweenness = nx.betweenness_centrality(G)
 top5 = sorted(betweenness.items(), key=lambda x: x[1], reverse=True)[:5]
-# Calcular betweenness
-closeness=nx.closeness_centrality(G)
+closeness = nx.closeness_centrality(G)
 top5_closeness = sorted(closeness.items(), key=lambda x: x[1], reverse=True)[:5]
-#assortatividade
 assortatividade = nx.degree_assortativity_coefficient(G)
-#media e variancia de grau
-    #média de grau (fórmula rápida)
 media_grau = 2 * G.number_of_edges() / G.number_of_nodes()
-    # graus individuais
 graus = [d for n, d in G.degree()]
-    # variância com base na média
 variancia_grau = sum((k - media_grau)**2 for k in graus) / len(graus)
-#detectar comunidades
+
 comunidades = nx.community.louvain_communities(G)
-#modularidade
 modularidade = nx.community.modularity(G, comunidades)
 
-#contar os agentes
 lista_unica_agentes = list(set(agentes))
-print(len(lista_unica_agentes))
+''' ###AQUI
+#4. Gerar imagem de um gráfico de barras dos top 10 centralidade
+import matplotlib.pyplot as plt
 
+plt.rcParams['font.family'] = 'Montserrat'
 
-#Graficos das medidas
-# Distribuição de grau
-plt.figure(figsize=(6, 4))
-sns.histplot(graus, bins=20, color="#6a1b9a", kde=True)
-plt.title("Distribuição de Grau", fontsize=12, fontweight="bold")
-plt.xlabel("Grau (número de conexões)")
-plt.ylabel("Número de nós")
+top10_centralidade = sorted(centralidade.items(), key=lambda item: item[1], reverse=True)[:10]
+
+# Separar os dados
+nodos_top10 = [item[0] for item in top10_centralidade]
+valores_top10 = [item[1] for item in top10_centralidade]
+
+# Destacar o nó com maior valor
+maior_no_top10 = nodos_top10[0]
+cores = ['red' if no == maior_no_top10 else 'steelblue' for no in nodos_top10]
+
+# Criar figura com barras mais esbeltas (largura menor)
+plt.figure(figsize=(10, 6))
+plt.bar(nodos_top10, valores_top10, color=cores, width=0.3)
+
+# Título e eixos
+plt.title('Top 10 Centralidade de Grau', fontsize=14)
+plt.xlabel('Nó', fontsize=12)
+plt.ylabel('Centralidade de Grau', fontsize=12)
+plt.xticks(rotation=45, ha='right', fontsize=9)
 plt.tight_layout()
-plt.savefig("grau_distribuicao.png", dpi=300)
+
+# Salvar imagem
+plt.savefig("centralidade_grau_top10.png", dpi=300)
 plt.close()
+'''
 
+
+# 4. Painel HTML das medidas (sem alterar!)
 painel_medidas_html = f"""
-<div style="position: absolute; top: 120px; left: 20px; width: 350px;
-            background: rgba(255,255,255,0.95); padding: 15px; border: 1px solid #ccc;
+<div style="max-width: 800px; margin: 20px auto 40px auto;
+            background: rgba(255,255,255,0.95); padding: 25px 30px; 
             border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 13px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1); z-index: 999; color: #333;">
+            box-shadow: 2px 2px 5px rgba(0,0,0,0); color: #333;">
 
-  <strong>Medidas da Rede</strong><br><br>
+  <strong style="font-size: 18px; display: block; margin-bottom: 20px;">Medidas da Rede</strong>
 
-  <strong>Propriedades básicas</strong><br>
-  Número de agentes: {len(lista_unica_agentes)}<br>
-  Número de nós: {num_nodes}<br>
-  Número de arestas: {num_arestas}<br>
-  Grau médio: {grau_medio:.3f}<br>
-  Densidade: {densidade:.3f}<br><br>
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <strong style = "font-size: 16px;">Propriedades básicas</strong>
+  
+  <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>Medidas que descrevem as características formais.</em>
+  </p>
+  
+  <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+    
+    <div style="text-align: center;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Agentes" style="width: 50px; margin-top: 5px; margin-bottom: 5px;">
+      <div>Número de agentes</div>
+      <div style="font-size: 30px; font-weight: bold;">{len(lista_unica_agentes)}</div>
+    </div>
 
-  <hr style='margin:15px 0;'>
-  <strong>Visualização: Distribuição de Grau</strong><br>
-  <img src='grau_distribuicao.png' style='width:100%; border-radius:4px; margin-top:8px;'><br><br>
+    <div style="text-align: center;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Nós" style="width: 50px; margin-top: 5px;">
+      <div>Número de nós</div>
+      <div style="font-size: 30px; font-weight: bold;">{num_nodes}</div>
+    </div>
 
-  <hr style='margin:15px 0;'>
-  <strong>Estrutura e conectividade</strong><br>
-  Componentes desconectados: {comp_desconectados}<br>
-  Nós do maior componente: {nos_maior_componente}<br><br>
+    <div style="text-align: center;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Arestas" style="width: 50px; margin-top: 5px;">
+      <div>Número de arestas</div>
+      <div style="font-size: 30px; font-weight: bold;">{num_arestas}</div>
+    </div>
 
-  <strong>Centralidade e influência</strong><br>
-  Maior centralidade: {maior_no} ({maior_valor:.3f})<br>
-  Menor centralidade: {menor_no} ({menor_valor:.3f})<br><br>
+    <div style="text-align: center;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Grau" style="width: 50px; margin-top: 5px;">
+      <div>Grau médio</div>
+      <div style="font-size: 30px; font-weight: bold;">{grau_medio:.3f}</div>
+    </div>
 
-  <strong>Top 5 Betweenness</strong><br>
-  {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5])}<br><br>
+    <div style="text-align: center;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Densidade" style="width: 50px; margin-top: 5px;">
+      <div>Densidade</div>
+      <div style="font-size: 30px; font-weight: bold;">{densidade:.3f}</div>
+    </div>
 
-  <strong>Top 5 Closeness</strong><br>
-  {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5_closeness])}<br><br>
+  </div>
+</div>
 
-  <strong>Distribuição de grau</strong><br>
-  Assortatividade: {assortatividade:.3f}<br>
-  Média de grau: {media_grau:.2f}<br>
-  Variância de grau: {variancia_grau:.2f}<br><br>
 
-  <strong>Comunidades</strong><br>
-  Número de comunidades: {len(comunidades)}<br>
-  Modularidade: {modularidade:.3f}
+<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <strong style = "font-size: 16px;">Estrutura e conectividade</strong>
+  
+  <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>Informações sobre a organização dos componentes.</em>
+  </p>
+
+
+    <!-- Indicadores em formato de texto normal -->
+  <p style="margin: 0; color: #333;">
+    Componentes desconectados: <strong style="font-size: 13px;">{comp_desconectados}</strong><br>
+    Nós do maior componente: <strong style="font-size: 13px;">{nos_maior_componente}</strong>
+  </p>
+  <p></p>
+
+  <!-- Imagem única ocupando 100% da largura da caixa -->
+  <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/componentes.png" alt="Visualização da estrutura da rede" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
+</div>
+
+
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Centralidade e influência</strong><br>
+    Maior centralidade: {maior_no} ({maior_valor:.3f})<br>
+    Menor centralidade: {menor_no} ({menor_valor:.3f})
+  </div>
+
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Top 5 Betweenness</strong><br>
+    {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5])}
+  </div>
+
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Top 5 Closeness</strong><br>
+    {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5_closeness])}
+  </div>
+
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Distribuição de grau</strong><br>
+    Assortatividade: {assortatividade:.3f}<br>
+    Média de grau: {media_grau:.2f}<br>
+    Variância de grau: {variancia_grau:.2f}
+  </div>
+
+  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 0; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Comunidades</strong><br>
+    Número de comunidades: {len(comunidades)}<br>
+    Modularidade: {modularidade:.3f}
+  </div>
+
 </div>
 """
 
 
-'''
-print("\nPropriedades básicas")
-print(f"Número de nós: {num_nodes}")
-print(f"Número de arestas: {num_arestas}")
-print(f"Grau médio: {grau_medio:.3f}")
-print(f"Densidade: {densidade:.3f}")
-print("\nEstrutura e conectividade")
-print(f"componentes desconectados: {comp_desconectados}")
-print(f"Nós do maior componente: {nos_maior_componente}")
-print("\nCentralidade e influência")
-print(f"Nó com maior centralidade: {maior_no} ({maior_valor:.3f})")
-print(f"Nó com menor centralidade: {menor_no} ({menor_valor:.3f})")
-print("\nTop 5 nós com maior betweenness centrality:")
-for no, valor in top5:
-    print(f"{no}: {valor:.4f}")
-print("\nTop 5 nós com maior closeness centrality:")
-for no, valor in top5_closeness:
-    print(f"{no}: {valor:.4f}")
-print("\nDistribuição de grau e heterogeneidade")
-print(f"Assortatividade: {assortatividade}")
-print(f"Média de grau: {media_grau:.2f}")
-print(f"Variância de grau: {variancia_grau:.2f}")
-print("\nEstrutura de comunidades e modularidade")
-print(f"Número de comunidades: {len(comunidades)}")
-print(f"Grau de separação entre comunidades (modularidade): {modularidade:.3f}")
-'''
-
-
-#4_ Exportar HTML inicial
-net.write_html("./medidas-rede.html")
-
-# ---------- Injetar painel + JS ----------
-html_path = "./medidas-rede.html"
-
-# JSONs para injetar
-agentes_json = json.dumps(agentes)
-conexoes_json = json.dumps(conexoes)
-tipos_agente_dict = {agentes[i]: tipo_de_cada_agente[i].strip().lower()
-                     for i in range(len(agentes))}
-tipos_agente_json = json.dumps(tipos_agente_dict)
-tipos_conexao_dict = {i: tipo_de_conexoes[i].strip().lower()
-                      for i in range(len(tipo_de_conexoes))}
-tipos_conexao_json = json.dumps(tipos_conexao_dict)
-
-
-# Injetar no HTML
-with open(html_path, 'r', encoding='utf-8') as f:
-    html = f.read()
-
-
-# Injetar header e footer externo + painel + legenda
+# 5. Carregar header e footer
 with open("header.html", "r", encoding="utf-8") as h:
     header_html = h.read()
 
 with open("footer.html", "r", encoding="utf-8") as f:
     footer_html = f.read()
 
-html_modificado = html.replace("<body>", f"<body>\n{header_html}\n{painel_medidas_html}").replace("</body>",
-    f"{footer_html}\n</body>")
+# 6. Injetar painel entre header e footer
+html_final = f"""
+{header_html}
+{painel_medidas_html}
+{footer_html}
+"""
 
-with open(html_path, 'w', encoding='utf-8') as f:
-    f.write(html_modificado)
+# 7. Salvar o HTML
+with open("medidas-rede.html", "w", encoding="utf-8") as f:
+    f.write(html_final)
 
-print("medidas-rede.html gerado")
+print("Arquivo 'medidas-rede.html'")
