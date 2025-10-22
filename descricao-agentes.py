@@ -20,16 +20,6 @@ net = Network(height='400px', width='100%', bgcolor='#ffffff', font_color='#3333
 html_path = "./descricao-agentes.html"
 net.write_html(html_path)
 
-# 3. Título
-titulo_html = """
-<div style="margin-top: 30px; margin-left: 5%; width: 50%; 
-            font-family: 'Montserrat', sans-serif; color: #333333;">
-  <div style="font-size: 40px; font-weight: 900;">Rede GHZ</div>
-  <div style="font-size: 14px; font-weight: normal; margin-top: 5px;">
-    Agentes sociais para inteligência coletiva e governança de dados urbanos
-  </div>
-</div>
-"""
 
 # 4. Bloco de descrições
 descricao_agentes_html = """
@@ -41,7 +31,7 @@ descricao_agentes_html = """
     font-size: 14px; 
     color: #333;
     line-height: 1.5;
-    padding-bottom: 80px;
+    padding-bottom: 20px;
 ">
 <h2 style="font-size: 22px; margin-bottom: 20px;">Descrição dos Agentes</h2>
 """
@@ -94,7 +84,7 @@ html = html.replace(
   body {
     background: 
       linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
-      url('rede.png') no-repeat center center fixed;
+      url('animacao.gif') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -110,10 +100,19 @@ html = html.replace(
 """
 )
 
+# Injetar header e footer externo
+with open("header.html", "r", encoding="utf-8") as h:
+    header_html = h.read()
+
+with open("footer.html", "r", encoding="utf-8") as f:
+    footer_html = f.read()
+
 # 7. Inserir o título e descrições
-html_modificado = html.replace("<body>", f"<body>\n{titulo_html}\n{descricao_agentes_html}")
+html_modificado = html.replace("<body>", f"<body>\n{header_html}\n{descricao_agentes_html}").replace("</body>",
+    f"{footer_html}\n</body>"
+)
 
 with open(html_path, 'w', encoding='utf-8') as f:
     f.write(html_modificado)
 
-print("✅ descricao-agentes.html gerado com fundo e cores por tipo")
+print("✅ descricao-agentes.html gerado")
