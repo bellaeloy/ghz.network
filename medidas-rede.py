@@ -1,8 +1,6 @@
 from pathlib import Path
 import csv
 import networkx as nx
-import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties
 
 # 1. Importar CSV
 arestas = Path('./R02_Arestas.csv').read_text().splitlines()
@@ -54,12 +52,25 @@ comunidades = nx.community.louvain_communities(G)
 modularidade = nx.community.modularity(G, comunidades)
 
 lista_unica_agentes = list(set(agentes))
-''' ###AQUI
-#4. Gerar imagem de um gráfico de barras dos top 10 centralidade
+#4. Códigos para gerar as imagens, manter desativado
+'''
+#4.1 Gerar imagem de um gráfico de barras dos top 10 centralidade
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
+from pathlib import Path
 
-plt.rcParams['font.family'] = 'Montserrat'
+# --- Configuração da fonte Montserrat ---
+# Caminho personalizado
+caminho_fonte = "/home/bellx/Montserrat/static/Montserrat-Medium.ttf"
 
+if Path(caminho_fonte).exists():
+    font_manager.fontManager.addfont(caminho_fonte)
+    plt.rcParams['font.family'] = 'Montserrat'
+    print(f"✅ Fonte Montserrat carregada de: {caminho_fonte}")
+else:
+    print(f"⚠️ Fonte Montserrat não encontrada em: {caminho_fonte}. Usando fonte padrão do sistema.")
+
+# --- Selecionar top 10 por centralidade ---
 top10_centralidade = sorted(centralidade.items(), key=lambda item: item[1], reverse=True)[:10]
 
 # Separar os dados
@@ -68,26 +79,216 @@ valores_top10 = [item[1] for item in top10_centralidade]
 
 # Destacar o nó com maior valor
 maior_no_top10 = nodos_top10[0]
-cores = ['red' if no == maior_no_top10 else 'steelblue' for no in nodos_top10]
+cores = ['purple' if no == maior_no_top10 else 'orange' for no in nodos_top10]
 
-# Criar figura com barras mais esbeltas (largura menor)
+# --- Criar gráfico ---
 plt.figure(figsize=(10, 6))
-plt.bar(nodos_top10, valores_top10, color=cores, width=0.3)
+plt.bar(nodos_top10, valores_top10, color=cores, width=0.5)
 
-# Título e eixos
 plt.title('Top 10 Centralidade de Grau', fontsize=14)
 plt.xlabel('Nó', fontsize=12)
 plt.ylabel('Centralidade de Grau', fontsize=12)
 plt.xticks(rotation=45, ha='right', fontsize=9)
 plt.tight_layout()
 
-# Salvar imagem
-plt.savefig("centralidade_grau_top10.png", dpi=300)
+# --- Salvar imagem ---
+plt.savefig("/home/bellx/github/ghz.site/imagens/centralidade_grau_top10.png", dpi=300)
 plt.close()
 '''
 
 
-# 4. Painel HTML das medidas (sem alterar!)
+'''
+#4.2 Gerar imagem da rede com gradiente de betweenness (rótulos apenas top 10)
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib import font_manager
+from pathlib import Path
+import matplotlib.patheffects as path_effects  # <-- Import para o contorno do texto
+
+# --- Configuração da fonte Montserrat ---
+caminho_fonte = "/home/bellx/Montserrat/static/Montserrat-Medium.ttf"
+if Path(caminho_fonte).exists():
+    font_manager.fontManager.addfont(caminho_fonte)
+    plt.rcParams['font.family'] = 'Montserrat'
+    print(f"✅ Fonte Montserrat carregada de: {caminho_fonte}")
+else:
+    print(f"⚠️ Fonte Montserrat não encontrada em: {caminho_fonte}. Usando fonte padrão do sistema.")
+
+# --- Normalizar betweenness para usar em colormap ---
+valores_bet = list(betweenness.values())
+norm = mpl.colors.Normalize(vmin=min(valores_bet), vmax=max(valores_bet))
+cmap = plt.cm.plasma
+cores_nos = [cmap(norm(betweenness[n])) for n in G.nodes()]
+
+# --- Layout e tamanho dos nós ---
+pos = nx.spring_layout(G, seed=42, k=0.3)
+tamanhos = [500 * centralidade[n] + 50 for n in G.nodes()]
+
+# --- Criar figura e eixo explicitamente ---
+fig, ax = plt.subplots(figsize=(10, 8))
+
+# Desenhar nós e arestas
+nx.draw_networkx_nodes(G, pos, node_color=cores_nos, node_size=tamanhos, alpha=0.9, ax=ax, linewidths=0.5, edgecolors="white")
+nx.draw_networkx_edges(G, pos, edge_color='gray', alpha=0.25, ax=ax)
+
+# --- Selecionar top 10 nós por betweenness ---
+top10 = sorted(betweenness.items(), key=lambda x: x[1], reverse=True)[:10]
+nodos_rotulados = set([n for n, _ in top10])
+
+# --- Preparar labels só para esses nós ---
+labels = {n: n for n in G.nodes() if n in nodos_rotulados}
+
+# --- Ajustar posição dos labels para ficar um pouco acima do nó (deslocamento maior) ---
+labels_pos = {n: (x, y + 0.06) for n, (x, y) in pos.items() if n in labels}
+
+# --- Desenhar labels com bbox branca semi-transparente e contorno para legibilidade ---
+labels_drawn = nx.draw_networkx_labels(
+    G, labels_pos, labels=labels, font_size=8, font_color='black',
+    bbox=dict(facecolor='white', alpha=0.7, edgecolor='none', boxstyle='round,pad=0.2'),
+    ax=ax
+)
+
+# Contorno branco nos textos para destacar
+for text in labels_drawn.values():
+    text.set_path_effects([
+        path_effects.Stroke(linewidth=2, foreground='white'),
+        path_effects.Normal()
+    ])
+
+# --- Barra de cores ---
+sm = mpl.cm.ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = fig.colorbar(sm, ax=ax)
+cbar.set_label('Betweenness Centrality', fontsize=10)
+
+ax.set_title('Rede GHZ – Gradiente de Betweenness (Top 10 rotulados)', fontsize=13, pad=15)
+ax.axis('off')
+
+plt.tight_layout()
+plt.savefig("/home/bellx/github/ghz.site/imagens/rede_betweenness.png", dpi=300)
+plt.close()
+
+print("✅ Imagem 'rede_betweenness.png' gerada com sucesso (rótulos top 10).")
+'''
+
+'''
+# 4.4 Gerar imagem da rede com gradiente de closeness (rótulos top 5 e bottom 5)
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib import font_manager
+from pathlib import Path
+import matplotlib.patheffects as path_effects  # Para contorno do texto
+
+# --- Configuração da fonte Montserrat ---
+caminho_fonte = "/home/bellx/Montserrat/static/Montserrat-Medium.ttf"
+if Path(caminho_fonte).exists():
+    font_manager.fontManager.addfont(caminho_fonte)
+    plt.rcParams['font.family'] = 'Montserrat'
+    print(f"✅ Fonte Montserrat carregada de: {caminho_fonte}")
+else:
+    print(f"⚠️ Fonte Montserrat não encontrada em: {caminho_fonte}. Usando fonte padrão do sistema.")
+
+# --- Normalizar closeness para usar em colormap ---
+valores_close = list(closeness.values())
+norm = mpl.colors.Normalize(vmin=min(valores_close), vmax=max(valores_close))
+cmap = plt.cm.plasma
+cores_nos = [cmap(norm(closeness[n])) for n in G.nodes()]
+
+# --- Layout e tamanho dos nós ---
+pos = nx.spring_layout(G, seed=42, k=0.3)
+tamanhos = [500 * centralidade[n] + 50 for n in G.nodes()]  # mantém tamanho baseado na centralidade de grau
+
+# --- Criar figura e eixo ---
+fig, ax = plt.subplots(figsize=(10, 8))
+
+# Desenhar nós e arestas
+nx.draw_networkx_nodes(G, pos, node_color=cores_nos, node_size=tamanhos, alpha=0.9, ax=ax, linewidths=0.5, edgecolors="white")
+nx.draw_networkx_edges(G, pos, edge_color='gray', alpha=0.25, ax=ax)
+
+# --- Selecionar top 5 e bottom 5 por closeness ---
+top5 = sorted(closeness.items(), key=lambda x: x[1], reverse=True)[:5]
+bottom5 = sorted(closeness.items(), key=lambda x: x[1])[:5]
+nodos_rotulados = set([n for n, _ in top5 + bottom5])
+
+# --- Preparar labels apenas para esses nós ---
+labels = {n: n for n in G.nodes() if n in nodos_rotulados}
+labels_pos = {n: (x, y + 0.06) for n, (x, y) in pos.items() if n in labels}
+
+# --- Desenhar labels com bbox branca semi-transparente e contorno ---
+labels_drawn = nx.draw_networkx_labels(
+    G, labels_pos, labels=labels, font_size=8, font_color='black',
+    bbox=dict(facecolor='white', alpha=0.7, edgecolor='none', boxstyle='round,pad=0.2'),
+    ax=ax
+)
+
+# Contorno branco nos textos para destacar
+for text in labels_drawn.values():
+    text.set_path_effects([
+        path_effects.Stroke(linewidth=2, foreground='white'),
+        path_effects.Normal()
+    ])
+
+# --- Barra de cores ---
+sm = mpl.cm.ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = fig.colorbar(sm, ax=ax)
+cbar.set_label('Closeness Centrality', fontsize=10)
+
+ax.set_title('Rede GHZ – Gradiente de Closeness (Top 5 e Bottom 5 rotulados)', fontsize=13, pad=15)
+ax.axis('off')
+
+plt.tight_layout()
+plt.savefig("/home/bellx/github/ghz.site/imagens/rede_closeness.png", dpi=300)
+plt.close()
+
+print("✅ Imagem 'rede_closeness.png' gerada com sucesso (rótulos top 5 e bottom 5).")
+'''
+#AQUIII
+#4.5 histograma
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
+import numpy as np
+
+# --- Configuração da fonte Montserrat ---
+caminho_fonte = "/home/bellx/Montserrat/static/Montserrat-Medium.ttf"
+if Path(caminho_fonte).exists():
+    font_manager.fontManager.addfont(caminho_fonte)
+    plt.rcParams['font.family'] = 'Montserrat'
+    print(f"✅ Fonte Montserrat carregada de: {caminho_fonte}")
+else:
+    print(f"⚠️ Fonte Montserrat não encontrada em: {caminho_fonte}. Usando fonte padrão do sistema.")
+
+# --- Estatísticas ---
+graus = [d for n, d in G.degree()]
+media_grau = np.mean(graus)
+std_grau = np.std(graus)
+
+# --- Criar histograma ---
+plt.figure(figsize=(10, 6))
+n, bins, patches = plt.hist(graus, bins=range(min(graus), max(graus)+2), color='orange', edgecolor='black', alpha=0.7)
+
+# --- Linhas verticais para média e desvio padrão ---
+plt.axvline(media_grau, color='purple', linestyle='-', linewidth=2, label=f'Média ({media_grau:.2f})')
+plt.axvline(media_grau + std_grau, color='green', linestyle='--', linewidth=2, label=f'+1σ ({media_grau + std_grau:.2f})')
+plt.axvline(media_grau - std_grau, color='green', linestyle='--', linewidth=2, label=f'-1σ ({media_grau - std_grau:.2f})')
+
+# --- Labels e título ---
+plt.title('Histograma de Graus da Rede', fontsize=14)
+plt.xlabel('Grau', fontsize=12)
+plt.ylabel('Número de Nós', fontsize=12)
+plt.xticks(range(min(graus), max(graus)+1))
+plt.legend()
+plt.tight_layout()
+
+# --- Salvar imagem ---
+plt.savefig("/home/bellx/github/ghz.site/imagens/histograma_graus.png", dpi=300)
+plt.close()
+
+print("✅ Imagem 'histograma_graus.png' gerada com sucesso.")
+
+
+
+# 5. Painel HTML das medidas
 painel_medidas_html = f"""
 <div style="max-width: 800px; margin: 20px auto 40px auto;
             background: rgba(255,255,255,0.95); padding: 25px 30px; 
@@ -149,8 +350,8 @@ painel_medidas_html = f"""
 
     <!-- Indicadores em formato de texto normal -->
   <p style="margin: 0; color: #333;">
-    Componentes desconectados: <strong style="font-size: 13px;">{comp_desconectados}</strong><br>
-    Nós do maior componente: <strong style="font-size: 13px;">{nos_maior_componente}</strong>
+    Componentes desconectados: <strong style="font-size: 13px;font-weight: bold;">{comp_desconectados}</strong><br>
+    Nós do maior componente: <strong style="font-size: 13px;font-weight: bold;">{nos_maior_componente}</strong>
   </p>
   <p></p>
 
@@ -161,26 +362,37 @@ painel_medidas_html = f"""
 
   <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
     <strong style = "font-size: 16px;">Centralidade e influência</strong><br>
+    
+    <!-- Imagem única ocupando 100% da largura da caixa -->
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/centralidade_grau_top10.png" alt="top 10 centralidade grau" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
     Maior centralidade: {maior_no} ({maior_valor:.3f})<br>
     Menor centralidade: {menor_no} ({menor_valor:.3f})
   </div>
 
   <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
-    <strong style = "font-size: 16px;">Top 5 Betweenness</strong><br>
+    <strong style="font-size: 16px;">Betweenness</strong><br>
+    <!-- Imagem única ocupando 100% da largura da caixa -->
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/rede_betweenness.png" alt="betweeenness" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
+    <strong>Top 5</strong><br>
     {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5])}
   </div>
 
+
   <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
-    <strong style = "font-size: 16px;">Top 5 Closeness</strong><br>
+    <strong style = "font-size: 16px;">Closeness</strong><br>
+    <!-- Imagem única ocupando 100% da largura da caixa -->
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/rede_closeness.png" alt="closeness" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
+    <strong>Top 5</strong><br>
     {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5_closeness])}
   </div>
 
   <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
-    <strong style = "font-size: 16px;">Distribuição de grau</strong><br>
-    Assortatividade: {assortatividade:.3f}<br>
-    Média de grau: {media_grau:.2f}<br>
-    Variância de grau: {variancia_grau:.2f}
+    <strong style="font-size: 16px;">Distribuição de grau</strong><br>
+    Assortatividade: <strong>{assortatividade:.3f}</strong><br>
+    Média de grau: <strong>{media_grau:.2f}</strong><br>
+    Variância de grau: <strong>{variancia_grau:.2f}</strong>
   </div>
+
 
   <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 0; border-radius: 6px; background: #fff; width: 100%;">
     <strong style = "font-size: 16px;">Comunidades</strong><br>
@@ -192,21 +404,21 @@ painel_medidas_html = f"""
 """
 
 
-# 5. Carregar header e footer
+# 6. Carregar header e footer
 with open("header.html", "r", encoding="utf-8") as h:
     header_html = h.read()
 
 with open("footer.html", "r", encoding="utf-8") as f:
     footer_html = f.read()
 
-# 6. Injetar painel entre header e footer
+# 7. Injetar painel entre header e footer
 html_final = f"""
 {header_html}
 {painel_medidas_html}
 {footer_html}
 """
 
-# 7. Salvar o HTML
+# 8. Salvar o HTML
 with open("medidas-rede.html", "w", encoding="utf-8") as f:
     f.write(html_final)
 
