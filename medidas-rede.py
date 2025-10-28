@@ -248,43 +248,43 @@ print("✅ Imagem 'rede_closeness.png' gerada com sucesso (rótulos top 5 e bott
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 import numpy as np
+from pathlib import Path
 
-# --- Configuração da fonte Montserrat ---
+# --- Fonte Montserrat ---
 caminho_fonte = "/home/bellx/Montserrat/static/Montserrat-Medium.ttf"
 if Path(caminho_fonte).exists():
     font_manager.fontManager.addfont(caminho_fonte)
     plt.rcParams['font.family'] = 'Montserrat'
-    print(f"✅ Fonte Montserrat carregada de: {caminho_fonte}")
 else:
-    print(f"⚠️ Fonte Montserrat não encontrada em: {caminho_fonte}. Usando fonte padrão do sistema.")
+    print("Fonte Montserrat não encontrada, usando padrão do sistema.")
 
-# --- Estatísticas ---
+# --- Dados ---
 graus = [d for n, d in G.degree()]
 media_grau = np.mean(graus)
-std_grau = np.std(graus)
+desvio_grau = np.std(graus)
 
 # --- Criar histograma ---
 plt.figure(figsize=(10, 6))
-n, bins, patches = plt.hist(graus, bins=range(min(graus), max(graus)+2), color='orange', edgecolor='black', alpha=0.7)
+n_bins = min(20, len(set(graus)))  # número de bins razoável
+plt.hist(graus, bins=n_bins, color='orange', edgecolor='black', alpha=0.8)
 
 # --- Linhas verticais para média e desvio padrão ---
-plt.axvline(media_grau, color='purple', linestyle='-', linewidth=2, label=f'Média ({media_grau:.2f})')
-plt.axvline(media_grau + std_grau, color='green', linestyle='--', linewidth=2, label=f'+1σ ({media_grau + std_grau:.2f})')
-plt.axvline(media_grau - std_grau, color='green', linestyle='--', linewidth=2, label=f'-1σ ({media_grau - std_grau:.2f})')
+plt.axvline(media_grau, color='purple', linestyle='--', linewidth=2, label=f"Média ({media_grau:.2f})")
+plt.axvline(media_grau + desvio_grau, color='blue', linestyle=':', linewidth=2, label=f"+1 Desvio ({media_grau + desvio_grau:.2f})")
+plt.axvline(media_grau - desvio_grau, color='blue', linestyle=':', linewidth=2, label=f"-1 Desvio ({media_grau - desvio_grau:.2f})")
 
-# --- Labels e título ---
-plt.title('Histograma de Graus da Rede', fontsize=14)
-plt.xlabel('Grau', fontsize=12)
-plt.ylabel('Número de Nós', fontsize=12)
-plt.xticks(range(min(graus), max(graus)+1))
+# --- Estilo do gráfico ---
+plt.title("Histograma de Grau da Rede", fontsize=14)
+plt.xlabel("Grau", fontsize=12)
+plt.ylabel("Número de nós", fontsize=12)
 plt.legend()
 plt.tight_layout()
 
-# --- Salvar imagem ---
-plt.savefig("/home/bellx/github/ghz.site/imagens/histograma_graus.png", dpi=300)
+# --- Salvar ---
+plt.savefig("/home/bellx/github/ghz.site/imagens/histograma_grau.png", dpi=300)
 plt.close()
+print("✅ Histograma gerado e salvo como 'histograma_grau.png'.")
 
-print("✅ Imagem 'histograma_graus.png' gerada com sucesso.")
 
 
 
