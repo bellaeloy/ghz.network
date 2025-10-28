@@ -115,30 +115,53 @@
 
              
         </style>
-    
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  body, button, div, span, h1, h2, h3, h4, h5, h6, a, p {
-    font-family: 'Montserrat', sans-serif !important;
-  }
-</style>
-</head>
-
+    </head>
 
 
     <body>
+<!-- header.html -->
 
-<div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); 
-            padding: 12px 20px; border-radius: 8px; font-family: 'Montserrat', sans-serif; 
-            font-size: 40px; font-weight: 900 color: #333333; z-index: 1000;">
-  Rede GHZ
-  <div style="font-size: 14px; font-weight: normal; margin-top: 5px;">
-    Agentes sociais para inteligência coletiva e governança de dados urbanos
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+<header style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  z-index: 1000;
+  font-family: 'Montserrat', sans-serif;
+">
+
+  <!-- Título e subtítulo -->
+  <div style="display: flex; flex-direction: column;">
+    <span style="font-size: 36px; font-weight: 800; color: #333;">Rede GHZ</span>
+    <span style="font-size: 14px; font-weight: 400; color: #555; margin-top: 4px;">
+      Agentes sociais para inteligência coletiva e governança de dados urbanos
+    </span>
   </div>
-</div>
+
+  <!-- Navegação -->
+  <nav style="display: flex; gap: 20px;">
+    <a href="index.html" style="text-decoration: none; color: #333; font-weight: 500;">Início</a>
+    <a href="medidas-rede.html" style="text-decoration: none; color: #333; font-weight: 500;">Medidas da Rede</a>
+    <a href="descricao-agentes.html" style="text-decoration: none; color: #333; font-weight: 500;">Sobre os agentes</a>
+    <a href="sobre.html" style="text-decoration: none; color: #333; font-weight: 500;">Sobre</a>
+    <a href="contato.html" style="text-decoration: none; color: #333; font-weight: 500;">Contato</a>
+  </nav>
+</header>
+
+<!-- Espaço abaixo do header fixo para evitar conteúdo escondido -->
+<div style="height: 80px;"></div>
 
 
-<div style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.95); 
+<div style="position: absolute; top: 120px; right: 20px; background: rgba(255,255,255,0.95); 
             padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: sans-serif;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1); z-index: 999; color: #333; font-size: 13px;">
   <strong>Legenda</strong><br><br>
@@ -389,5 +412,19 @@
               }
               drawGraph();
         </script>
-    </body>
+    <!-- footer.html -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+<footer style="position: fixed; bottom: 0; left: 0; width: 100%;
+                background: rgba(255,255,255,0.95); border-top: 1px solid #ccc;
+                text-align: center; padding: 8px 0; 
+                font-family: 'Montserrat', sans-serif; font-size: 13px;
+                color: #555; z-index: 1000;">
+  Desenvolvido por <strong>Isabella Cavalcanti</strong> com financiamento <strong>CAPES</strong> | 2025
+</footer>
+
+<!-- Espaço inferior para evitar sobreposição do conteúdo -->
+<div style="height: 40px;"></div>
+
+</body>
 </html>

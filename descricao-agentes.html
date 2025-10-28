@@ -1,0 +1,632 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 400px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body, button, div, span, h1, h2, h3, h4, h5, h6, a, p {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+
+  /* Fundo com imagem e opacidade */
+  body {
+    background: 
+      linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+      url('animacao.gif') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Corrigir faixa branca da rede */
+  #mynetwork {
+    height: 300px !important;
+    position: relative !important;
+  }
+</style>
+</head>
+
+
+
+    <body>
+<!-- header.html -->
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+<header style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  z-index: 1000;
+  font-family: 'Montserrat', sans-serif;
+">
+
+  <!-- Título e subtítulo -->
+  <div style="display: flex; flex-direction: column;">
+    <span style="font-size: 36px; font-weight: 800; color: #333;">Rede GHZ</span>
+    <span style="font-size: 14px; font-weight: 400; color: #555; margin-top: 4px;">
+      Agentes sociais para inteligência coletiva e governança de dados urbanos
+    </span>
+  </div>
+
+  <!-- Navegação -->
+  <nav style="display: flex; gap: 20px;">
+    <a href="index.html" style="text-decoration: none; color: #333; font-weight: 500;">Início</a>
+    <a href="medidas-rede.html" style="text-decoration: none; color: #333; font-weight: 500;">Medidas da Rede</a>
+    <a href="descricao-agentes.html" style="text-decoration: none; color: #333; font-weight: 500;">Sobre os agentes</a>
+    <a href="sobre.html" style="text-decoration: none; color: #333; font-weight: 500;">Sobre</a>
+    <a href="contato.html" style="text-decoration: none; color: #333; font-weight: 500;">Contato</a>
+  </nav>
+</header>
+
+<!-- Espaço abaixo do header fixo para evitar conteúdo escondido -->
+<div style="height: 80px;"></div>
+
+
+<div style="
+    margin-top: 40px;
+    margin-left: 5%; 
+    width: 50%; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 14px; 
+    color: #333;
+    line-height: 1.5;
+    padding-bottom: 20px;
+">
+<h2 style="font-size: 22px; margin-bottom: 20px;">Descrição dos Agentes</h2>
+
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#d6272880; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>1. DataLabe</b> <span style="font-size:12px; color:#666;">(Laboratório)</span>
+        </div><br>
+        é um laboratório de dados e narrativas da favela da Maré, no Rio de Janeiro, que atua pela democratização do conhecimento por meio da produção, análise e divulgação de dados sobre raça, gênero e território. Fundado em 2016 no Observatório de Favelas, tornou-se uma associação autônoma e sem fins lucrativos em 2018. Desenvolve reportagens, pesquisas, oficinas e campanhas que evidenciam as potências e desafios dos territórios populares. Sua equipe aposta em narrativas diversas para fortalecer a democracia.<br>
+        <a href="https://datalabe.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://datalabe.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#D117CE80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>2. Instituto decodifica</b> <span style="font-size:12px; color:#666;">(Instituto )</span>
+        </div><br>
+        atua na produção, comunicação e incidência política baseada em dados, com foco nas periferias. Parte da ideia de que os dados são ferramentas para transformar realidades, promovendo debates públicos e políticas mais justas. Sua principal metodologia é a Geração Cidadã de Dados (GCD), que incentiva indivíduos e organizações a produzirem dados sobre suas próprias realidades para monitorar e provocar mudanças. Com base nos saberes periféricos, o Instituto busca promover transformação social e se tornar referência no Sul Global, guiado por valores de equidade, reparação e inovação.<br>
+        <a href="https://decodifica.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://decodifica.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>3. Quebra_dev</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é um podcast de origem periférica que busca representar quem é de quebrada na área de tecnologia e incentivar a entrada de novos interessados, especialmente das periferias. Com formato informal, aborda temas técnicos e não técnicos que cruzam tecnologia, sociedade e política a partir da vivência periférica. Mais que um canal informativo, une seriedade, cultura das ruas e humor para promover debates acessíveis e relevantes. Reconhecido como o podcast mais “perifatécnico” do planeta, o QuebraDev conecta tecnologia e experiências periféricas em um espaço de diálogo e representatividade.<br>
+        <a href="https://quebra.dev/" target="_blank" style="color:#0066cc; text-decoration:none;">https://quebra.dev/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>4. NOSSAS</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é uma organização ativista que fortalece a democracia no Brasil com foco em justiça climática, racial e de gênero. Acredita que a democracia depende da cidadania ativa e da participação popular. Há mais de 10 anos, mobiliza pessoas e desenvolve tecnologias cívicas para ampliar o campo democrático, enfrentando desigualdades e racismo ambiental. Atua nacionalmente, priorizando populações negras, periféricas, mulheres, pessoas LGBT+ e comunidades tradicionais. Baseia-se em valores de colaboração, justiça, cuidado e resolutividade, estruturando-se em frentes como comunicação, mobilização, formação, tecnologias cívicas, redistribuição de recursos e incubação de projetos.<br>
+        <a href="https://nossas.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://nossas.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>5. Gênero e Número</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é uma organização de mídia independente que produz e analisa dados sobre gênero, raça e sexualidade para fortalecer os direitos de mulheres, populações negra, indígena e LGBTQIA+. Busca qualificar o debate público com reportagens, pesquisas e conteúdos visuais. Sua missão é visibilizar desigualdades e gerar informações verificadas que sustentem discursos de mudança. Fundada em 2022, dá continuidade à empresa social criada em 2016, garantindo governança compartilhada e atuação apartidária. Com equipe diversa, une jornalismo de dados, pesquisa e inovação digital para promover equidade racial e de gênero.<br>
+        <a href="https://www.generonumero.media/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.generonumero.media/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>6. Eco-Mídia</b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        é uma plataforma de pesquisa e práticas comunitárias que articula mídias, tecnologias da informação, direitos digitais e justiça socioambiental, com foco nas territorialidades Sul-Sul. Criado pela pesquisadora Lori Regattieri, o projeto investiga o papel da técnica e da mídia em contextos de emergência climática. Com base em 15 anos de trajetória que une pesquisa e ação comunitária, o Eco-Mídia analisa como sistemas comunicacionais silenciam vozes e reproduzem desigualdades. Também denuncia a desinformação climática, o greenwashing e o avanço extrativista da inteligência artificial por governos e corporações.<br>
+        <a href="https://eco-midia.com/" target="_blank" style="color:#0066cc; text-decoration:none;">https://eco-midia.com/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>7. Coding Rights</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é uma organização feminista que atua na tecnologia a partir de perspectivas coletiva, transfeminista, decolonial e antirracista, focada na defesa dos direitos humanos. Usa criatividade e conhecimento hacker para desafiar desigualdades de poder. Conecta o local ao global por meio de uma rede de parceiros, coletivos e ativistas, defendendo uma democracia participativa que aproxima a política institucional dos movimentos sociais. Suas atividades incluem pesquisas, incidência política, criação de narrativas, desenvolvimento de ferramentas tecnológicas, capacitação em cuidados digitais e tecnopolíticas, além de metodologias e processos criativos.<br>
+        <a href="https://codingrights.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://codingrights.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>8. Minha Jampa</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        Desde 2017 incentiva a participação social na política local para construir uma cidade mais justa, inclusiva e melhor para todos. Sustentada por uma rede de pessoas mobilizadas, atua para que moradores participem ativamente das decisões que impactam João Pessoa. Contribuiu para mudanças importantes em políticas públicas por meio da mobilização popular, fortalecendo um ambiente urbano participativo e sustentável. A organização é financiada exclusivamente por apoiadores independentes, sem aceitar recursos de governos, partidos ou empresas públicas, garantindo autonomia e compromisso com o projeto coletivo.<br>
+        <a href="https://www.minhajampa.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.minhajampa.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#9467bd80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>9. Periferia Viva</b> <span style="font-size:12px; color:#666;">(Programa/Projeto)</span>
+        </div><br>
+        A Secretaria Nacional de Periferias propõe o Programa Periferia Viva para articular políticas públicas nos territórios periféricos, garantindo participação popular nas decisões. Reconhece que uma única intervenção estatal é insuficiente diante de décadas de abandono e vulnerabilidades, mas também valoriza a resistência e organização popular na luta por direitos. O Periferia Viva é uma inovação do governo Lula que busca transformar a realidade das periferias brasileiras, integrando ações do Estado com o protagonismo das comunidades locais.<br>
+        <a href="https://www.gov.br/cidades/pt-br/novo-pac-selecoes/periferia-viva-urbanizacao-de-favelas" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.gov.br/cidades/pt-br/novo-pac-selecoes/periferia-viva-urbanizacao-de-favelas</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#9467bd80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>10. De Olho Nas Metas</b> <span style="font-size:12px; color:#666;">(Programa/Projeto)</span>
+        </div><br>
+        A Lei 15.764, de 2013, criou os Conselhos Participativos para monitorar a execução orçamentária, os Indicadores de Desempenho dos Serviços Públicos, o Plano de Metas e outras ferramentas de controle social em seus territórios. Para facilitar essa atuação e a comunicação com a população, foi criado o projeto De Olho nas Metas. A iniciativa amplia o conhecimento sobre o Plano de Metas, ajudando moradores a identificar projetos locais e apoiando conselheiros na divulgação, organização de campanhas e no desempenho de suas funções.<br>
+        <a href="https://2017.deolhonasmetas.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://2017.deolhonasmetas.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#D117CE80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>11. Fogocruzado</b> <span style="font-size:12px; color:#666;">(Instituto )</span>
+        </div><br>
+        usa inovação, colaboração e tecnologia para enfrentar a violência armada e salvar vidas. Fundado em 2016 por Cecília Olliveira, monitora tiroteios em cidades como Rio e Recife, produzindo indicadores inéditos sobre violência urbana. As informações, recebidas via aplicativo, estão disponíveis gratuitamente no primeiro banco de dados aberto sobre violência armada da América Latina, acessível por API. Com equipe de 20 pessoas, o instituto também forma jornalistas e ativistas. Sua missão é promover segurança como direito de todos, usando tecnologias abertas para gerar impacto social e políticas públicas eficazes.<br>
+        <a href="https://fogocruzado.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://fogocruzado.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>12. Open Knowledge Brasil</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é o braço brasileiro da Open Knowledge Foundation, criada em 2013 como organização civil, sem fins lucrativos e apartidária. Promove o conhecimento livre por meio de ferramentas cívicas, jornalismo de dados e análises de políticas públicas, aproximando governo e sociedade com mais transparência. Sua missão é ampliar o acesso ao conhecimento livre em diversas áreas, visando benefícios sociais. Valoriza respeito, ética no uso de dados, transparência e apartidarismo. Atua promovendo debates sobre uso responsável de dados e fortalecendo práticas abertas e inclusivas.<br>
+        <a href="https://ok.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://ok.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>13. MariaLab</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é uma organização feminista brasileira, sem fins lucrativos, que atua na intersecção entre gênero, tecnologias e política. Promove segurança e cuidado digital com uma perspectiva feminista e interseccional, focando na defesa dos direitos humanos e no combate às desigualdades de gênero, raça, sexualidade e classe. Suas ações se dividem em prevenção (análises de risco, consultorias e treinamentos), acolhimento (linha Maria d’Ajuda para violência digital) e autonomia (projetos que oferecem infraestrutura digital livre para coletivos). A MariaLab trabalha para garantir proteção e liberdade digital a grupos marginalizados.<br>
+        <a href="https://www.marialab.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.marialab.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#a09f9f80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>14. DataPrev</b> <span style="font-size:12px; color:#666;">(Público)</span>
+        </div><br>
+        é uma empresa pública federal parceira do Governo Federal na digitalização e automação dos serviços públicos. Com 50 anos de experiência, é responsável pelo Cadastro Nacional de Informações Sociais (CNIS), a maior base de dados sociais do país, fundamental para concessão de benefícios como aposentadoria e salário-maternidade. Com sede em Brasília e unidades em vários estados, possui três data centers certificados TIER III, garantindo segurança e eficiência no processamento de dados. Sua missão é organizar informações sociais para torná-las úteis à sociedade, visando fortalecer políticas sociais e a infraestrutura nacional de dados.<br>
+        <a href="https://www.dataprev.gov.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.dataprev.gov.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>15. Lavits</b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        promove o intercâmbio entre pesquisadores, ativistas e artistas latino-americanos sobre vigilância, tecnologia e sociedade, com foco nas especificidades da América Latina. Há mais de uma década, reúne especialistas para produzir pesquisas, publicações e ações civis, colaborando também com grupos na Europa e América do Norte. A rede é referência na articulação entre academia e sociedade civil, fomentando conhecimento coletivo, metodologias compartilhadas e visibilidade pública. Adota posicionamentos críticos, denunciando desigualdades geradas por tecnologias de vigilância, e defende abordagens decoloniais, tecnodiversidade e alternativas sociotécnicas para fortalecer coletivos inclusivos.<br>
+        <a href="https://lavits.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://lavits.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>16. Rede pela Transparência e Participação Social</b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        reúne organizações da sociedade civil e cidadãos comprometidos com a transparência do poder público e o incentivo à participação e controle social sobre recursos e políticas públicas. Atua em áreas como Lei de Acesso à Informação, transparência orçamentária, dados abertos, Parceria para Governo Aberto e criação de ferramentas digitais para apoiar a população. Também trabalha na implementação de propostas da 1ª Conferência sobre Transparência e Controle Social (Consocial), fortalecendo o exercício da cidadania e a responsabilidade pública.<br>
+        <a href="https://retps.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://retps.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>17. Rede Nossa São Paulo (RNSP) </b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        é uma organização da sociedade civil que mobiliza setores sociais e instituições para construir uma agenda de metas visando uma cidade justa, democrática e sustentável. Fundada em 2007, atua de forma apartidária, focada no combate às desigualdades, defesa dos direitos humanos, participação social, transparência e preservação ambiental. Contribuiu para políticas públicas inclusivas e criou iniciativas como o Observatório Cidadão e o Mapa da Desigualdade. Inspirou ações em outras cidades da América Latina, mantendo o compromisso de transformar São Paulo em um lugar melhor para todos.<br>
+        <a href="https://www.nossasaopaulo.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.nossasaopaulo.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#a09f9f80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>18. Participa.br</b> <span style="font-size:12px; color:#666;">(Público)</span>
+        </div><br>
+        é uma ferramenta digital do governo federal para ampliar a participação social na formulação e aprimoramento de políticas públicas. Desenvolvida em software livre, contou com a colaboração da Dataprev, Decidim-Brasil, MGI e UnB, coordenada pela Secretaria Nacional de Participação Social (SNPS/SGPR). Oferece módulos para consultas, audiências públicas, pesquisas e divulgação de boas práticas.<br>
+        <a href="https://www.gov.br/participamaisbrasil/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.gov.br/participamaisbrasil/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#D117CE80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>19. Instituto de Governo Aberto</b> <span style="font-size:12px; color:#666;">(Instituto )</span>
+        </div><br>
+        trabalha para tornar a relação entre Estado e sociedade mais justa, inclusiva e igualitária, com foco em transparência, participação, integridade e inovação. Atua apoiando a criação e implementação de políticas públicas para governos abertos, oferecendo formações pela Escola de Governo Aberto e promovendo articulações temáticas. Valoriza a gestão pública com abordagem colaborativa e intersetorial, envolvendo gestores e cidadãos no centro das ações. Também cria espaços de troca e conexão, fortalecendo redes de colaboração para soluções mais eficazes.<br>
+        <a href="https://institutodegovernoaberto.com.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://institutodegovernoaberto.com.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#1f77b480; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>20. Data Privacy Brasil</b> <span style="font-size:12px; color:#666;">(Escola)</span>
+        </div><br>
+        é uma organização que promove a cultura de proteção de dados e direitos digitais no Brasil e no mundo. Com equipe multidisciplinar, realiza formações, eventos, consultorias, pesquisas e auditorias cívicas, focando na defesa de direitos em uma sociedade marcada por desigualdades e datificação. Por meio da educação e mobilização, busca fortalecer uma sociedade democrática onde a tecnologia respeite a autonomia e dignidade das pessoas. Sua missão é informar e inovar no campo da privacidade e proteção de dados, com foco em formação, conteúdo acessível e excelência.<br>
+        <a href="https://dataprivacy.com.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://dataprivacy.com.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#1f77b480; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>21. Escola de dados</b> <span style="font-size:12px; color:#666;">(Escola)</span>
+        </div><br>
+        programa da Open Knowledge Brasil, promove alfabetização em dados para enfrentar problemas sociais e construir sociedades justas. Desde 2013, capacitou mais de 30 mil pessoas com treinamentos práticos focados em análise e uso crítico de dados. Atua na democratização do acesso, oferecendo cursos, tutoriais e materiais educativos que estimulam a reflexão sobre impactos sociopolíticos dos dados. Organiza-se em três eixos: capacitação técnica, produção de conhecimento crítico e fortalecimento de uma comunidade ativa por meio de eventos e redes colaborativas. É referência no ensino de dados no Brasil.<br>
+        <a href="https://escoladedados.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://escoladedados.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#d6272880; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>22. Labic</b> <span style="font-size:12px; color:#666;">(Laboratório)</span>
+        </div><br>
+        ligado ao Departamento de Comunicação Social da Universidade Federal do Espírito Santo, desenvolve produtos digitais e pesquisa o impacto da cultura digital nas práticas comunicacionais. Com abordagem multidisciplinar, une comunicação, computação, design, matemática e antropologia para analisar redes sociais, cibercultura e movimentos em rede. Fundado em 2007 pelo professor Fábio Malini, expandiu-se em 2012 com a chegada do professor Fábio Goveia. Também fazem parte da coordenação os professores Patrick Ciarelli e Adriana Ilha, reforçando a diversidade acadêmica.<br>
+        <a href="https://www.labic.net/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.labic.net/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#d6272880; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>23. Jararaca lab</b> <span style="font-size:12px; color:#666;">(Laboratório)</span>
+        </div><br>
+        é um laboratório de tecnopolíticas urbanas da PUC Paraná, vinculado ao Programa de Pós-Graduação em Gestão Urbana. Estuda as relações entre tecnologias, transformações do espaço urbano e seus impactos nos grupos que habitam esses territórios. Adota uma visão que vê ciência e tecnologia como construções sociais e históricas, analisando redes sociotécnicas e tecnopolíticas formadas por diversos atores, como políticas, tecnologias e cosmologias. O laboratório prioriza abordagens decoloniais, foco nas periferias, aproximação com ativismo e ONGs, e dissemina seus estudos por meio de ferramentas visuais e mídias acessíveis para popularizar o conhecimento.<br>
+        <a href="https://jararacalab.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://jararacalab.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#d6272880; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>24. MediaLab.UFRJ</b> <span style="font-size:12px; color:#666;">(Laboratório)</span>
+        </div><br>
+        é um laboratório experimental e transdisciplinar da Escola de Comunicação da UFRJ, focado nas relações entre tecnopolíticas, subjetividades e visibilidades. Fundado em 2012, explora métodos digitais de análise e visualização de dados nas humanidades, utilizando abordagens como a Cartografia de Controvérsias inspirada na teoria ator-rede. O laboratório alia pesquisa e ativismo, mantendo parcerias com coletivos artísticos e promovendo eventos abertos ao público. Suas pesquisas atuais se concentram nos eixos de Tecnopolíticas, Subjetividades e Visibilidades, buscando aproximar ciência, arte e questões sociopolíticas contemporâneas.<br>
+        <a href="https://medialabufrj.net/" target="_blank" style="color:#0066cc; text-decoration:none;">https://medialabufrj.net/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#d6272880; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>25. PimentaLab</b> <span style="font-size:12px; color:#666;">(Laboratório)</span>
+        </div><br>
+        sediado na UNIFESP desde 2010, é um laboratório transdisciplinar que integra ensino, pesquisa e extensão, focado nas práticas de conhecimento, tecnopolíticas e lutas sociais. Investiga como a mediação das tecnologias digitais transforma a vida social, moldando economias capitalistas e reconfigurando produção de conhecimento, subjetividades, cultura, economia e poder. Além disso, o laboratório explora formas coletivas de resistência e experimentação, promovendo a produção do Comum nas interseções entre territórios, corpos, saberes, tecnologias e modos de vida.<br>
+        <a href="https://www.pimentalab.net/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.pimentalab.net/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>26. Transparência Brasil</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        é uma ONG brasileira de combate à corrupção, fundada em 2000. Atua de forma independente e autônoma, participando de conselhos de transparência da Controladoria Geral da União, do Senado e do governo de São Paulo. Sua missão é promover a transparência e o controle social sobre o poder público para fortalecer a integridade das instituições, aprimorar políticas públicas e o processo democrático. A organização busca ser referência nacional em transparência, controle social e integridade, pautando-se em valores como independência, autonomia, pioneirismo, transparência, democracia e excelência.<br>
+        <a href="https://www.transparencia.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.transparencia.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#8c564b80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>27. Volt Data Lab</b> <span style="font-size:12px; color:#666;">(Empresa privada)</span>
+        </div><br>
+        fundado em 2014 por Sérgio Spagnuolo, é uma organização pioneira em jornalismo de dados no Brasil. Com sede em São Paulo e profissionais em várias cidades, realiza investigações com dados públicos para aumentar a transparência no governo, política e políticas públicas. Em 2020, criou o Núcleo Jornalismo, focado em investigações. Colabora com veículos como Folha, BBC e Intercept. Também desenvolve o Atlas da Notícia, mapeando produtores de conteúdo jornalístico. Além de reportagens e análises, oferece cursos e destaca-se pela ética e independência na produção.<br>
+        <a href="https://voltdata.info/" target="_blank" style="color:#0066cc; text-decoration:none;">https://voltdata.info/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>28. Rede de Pesquisa em Governança da Internet</b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        é uma rede acadêmica multidisciplinar que reúne pesquisadores focados nas dimensões tecnopolíticas da internet e suas implicações sociais, econômicas e políticas. Com princípios de inclusão, diversidade e interdisciplinaridade, a REDE aborda desigualdades de gênero, raça, classe, etnia, geração e deficiência no contexto digital. Atua por meio de recursos online, um encontro anual e publicação de artigos em Anais, promovendo o debate e a colaboração entre áreas para ampliar a compreensão da Governança da Internet e seus desafios frente aos avanços tecnocientíficos.<br>
+        <a href="https://redegovernanca.net.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://redegovernanca.net.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>29. PerifaConnection</b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        é uma plataforma que disputa narrativas sobre as periferias brasileiras, atuando em todas as regiões do país desde 2019. Foca na amplificação das vozes negras e periféricas, promovendo produção de conteúdo, formação de lideranças e articulação de redes de apoio. Voltada para juventude periférica, aborda questões de raça, etnia, gênero, sexualidade e deficiência. Acredita que a periferia é espaço de transformação e reconstrução de narrativas dominantes. Sua missão é potencializar essas vozes por meio da ocupação de espaços, com visão de protagonismo negro e periférico em plataformas de comunicação de massa. Valores incluem antirracismo, colaboração, territorialidade e interseccionalidade.<br>
+        <a href="https://x.com/PerifaConnect" target="_blank" style="color:#0066cc; text-decoration:none;">https://x.com/PerifaConnect</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#2ca02c80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>30. Tierra Común</b> <span style="font-size:12px; color:#666;">(Rede/conexão)</span>
+        </div><br>
+        reúne ativistas, jornalistas, acadêmicos e defensores dos direitos humanos focados em descolonizar dados, com ênfase na América Latina e no Sul Global. A organização rejeita o novo colonialismo como forma atual de dominação do Norte Global e vê a imaginação como ferramenta essencial para criar um futuro onde dados não discriminem nem excluam. Busca transformar a coleta e uso de dados para evitar exploração e marginalização, promovendo eventos, compartilhando perspectivas acadêmicas e práticas, e criando um arquivo online com recursos que apoiem a análise e resistência ao colonialismo de dados.<br>
+        <a href="https://www.tierracomun.net/" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.tierracomun.net/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#9467bd80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>31. Territórios sociais</b> <span style="font-size:12px; color:#666;">(Programa/Projeto)</span>
+        </div><br>
+        programa da Prefeitura do Rio em parceria com a ONU-Habitat, identifica e atende famílias “invisíveis” fora das ações socioassistenciais municipais. Atua em áreas como Alemão, Maré, Rocinha e outras. O programa tem três fases: busca ativa, plano de ação integrado e monitoramento. Agentes visitam residências usando questionário do Índice de Pobreza Multidimensional para localizar famílias vulneráveis em Saúde, Educação e Padrão de Vida, encaminhando-as a serviços essenciais. Coordenado pelo Instituto Pereira Passos, envolveu 19.143 visitas e identificou 2.234 famílias entre 2017 e 2018.<br>
+        <a href="https://territoriossociais-pcrj.hub.arcgis.com/" target="_blank" style="color:#0066cc; text-decoration:none;">https://territoriossociais-pcrj.hub.arcgis.com/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>32. DataGénero</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        trabalha para construir um futuro de dados inclusivo e sustentável na América Latina, focando em mulheres e pessoas LGBTI+. Monitora práticas de dados que impactam essas comunidades, oferecendo assessoria, auditorias e capacitações a governos e organizações. O objetivo é visibilizar desigualdades e combater a invisibilização desses grupos, promovendo a democratização do conhecimento em ciência de dados com perspectiva de gênero. DataGénero denuncia preconceitos nos dados, busca tornar os processos mais transparentes e defende leis que regulem o uso de dados para evitar governança injusta baseada em informações enviesadas.<br>
+        <a href="https://datagenero.org/" target="_blank" style="color:#0066cc; text-decoration:none;">https://datagenero.org/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#e7d56d80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>33. Casa Fluminense</b> <span style="font-size:12px; color:#666;">(Organização da Sociedade Civil (OSC) / Associação/ Coletivo)</span>
+        </div><br>
+        fundada em 2013 por ativistas, pesquisadores e cidadãos, busca um Rio de Janeiro mais integrado e inclusivo. Como associação civil sem fins lucrativos, autônoma e apartidária, atua como polo de uma rede colaborativa de pessoas e organizações. A Casa promove ações voltadas à igualdade, aprofundamento democrático e desenvolvimento sustentável, defendendo uma agenda pública que abranja toda a população e território fluminense, não apenas as áreas centrais da capital, visando construir uma “cidade metropolitana” comum, aberta e participativa para todos.<br>
+        <a href="https://casafluminense.org.br/" target="_blank" style="color:#0066cc; text-decoration:none;">https://casafluminense.org.br/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#8c564b80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>34. Visão Coop</b> <span style="font-size:12px; color:#666;">(Empresa privada)</span>
+        </div><br>
+        é uma iniciativa brasileira que conecta comunidades e cientistas por meio de tecnologias colaborativas para construir inteligência coletiva. Atua no intercâmbio de conhecimentos sobre adaptação climática, monitorando pontos críticos em tempo real e formando uma rede de agentes regenerativos. A organização também promove a prototipagem de tecnologias e soluções ecológicas, experimentando práticas regenerativas e desenvolvendo estratégias para enfrentar emergências climáticas de forma cooperativa e sustentável.<br>
+        <a href="https://visao.coop/" target="_blank" style="color:#0066cc; text-decoration:none;">https://visao.coop/</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    
+    <div style="margin-bottom: 18px;">
+        <div style="background-color:#a09f9f80; padding: 6px 10px; border-radius:4px; display:inline-block;">
+            <b>35. Conselho Nacional de Ciência e Tecnologia (CCT)</b> <span style="font-size:12px; color:#666;">(Público)</span>
+        </div><br>
+        é o principal órgão de assessoramento do Presidente da República na formulação e implementação da política nacional de desenvolvimento científico, tecnológico e de inovação. Vinculado ao Ministério da Ciência, Tecnologia e Inovação, foi criado em 1975 e tem como missão consolidar a ciência e a tecnologia como pilares do desenvolvimento econômico e social do Brasil. O CCT propõe políticas, planos e prioridades governamentais, avalia sua execução e emite pareceres sobre programas e normas que impactem o avanço científico e tecnológico do país.<br>
+        <a href="https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/cct" target="_blank" style="color:#0066cc; text-decoration:none;">https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/cct</a><br>
+        <span style="font-size: 11px; color:#555;">
+            <i>descrições geradas a partir dos sites oficiais</i>
+        </span>
+    </div>
+    </div>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([]);
+                  edges = new vis.DataSet([]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    <!-- footer.html -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+<footer style="position: fixed; bottom: 0; left: 0; width: 100%;
+                background: rgba(255,255,255,0.95); border-top: 1px solid #ccc;
+                text-align: center; padding: 8px 0; 
+                font-family: 'Montserrat', sans-serif; font-size: 13px;
+                color: #555; z-index: 1000;">
+  Desenvolvido por <strong>Isabella Cavalcanti</strong> com financiamento <strong>CAPES</strong> | 2025
+</footer>
+
+<!-- Espaço inferior para evitar sobreposição do conteúdo -->
+<div style="height: 40px;"></div>
+
+</body>
+</html>
