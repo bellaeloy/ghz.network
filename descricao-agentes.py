@@ -33,10 +33,17 @@ descricao_agentes_html = """
     line-height: 1.5;
     padding-bottom: 20px;
 ">
-<h2 style="font-size: 22px; margin-bottom: 20px;">Descrição dos Agentes</h2>
+  <h2 style="font-size: 22px; margin-bottom: 15px; font-weight: 700;">Descrição dos Agentes</h2>
+
+  <p style="font-size: 14px; color: #333; line-height: 1.5; margin-bottom: 25px;">
+    A seguir são apresentados os agentes primários que compõem a Rede GHZ, com suas respectivas descrições, 
+    naturezas institucionais e links. Cada agente representa um nó principal na rede, 
+    e sua caracterização contribui para a compreensão das conexões e dos papéis desempenhados 
+    dentro do ecossistema analisado.
+  </p>
 """
 
-# --- CORES por tipo ---
+# CORES por tipo
 cores_tipos = {
     "escola": "#1f77b4",
     "organização da sociedade civil (osc) / associação/ coletivo": "#e7d56d",
@@ -70,6 +77,7 @@ descricao_agentes_html += "</div>"
 with open(html_path, 'r', encoding='utf-8') as f:
     html = f.read()
 
+
 # Fonte Montserrat, fundo com imagem e opacidade
 html = html.replace(
     "</head>",
@@ -84,7 +92,7 @@ html = html.replace(
   body {
     background: 
       linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
-      url('animacao.gif') no-repeat center center fixed;
+      url('https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/fundo-pag-sobre-agentes.gif') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -94,7 +102,16 @@ html = html.replace(
   #mynetwork {
     height: 300px !important;
     position: relative !important;
+    border: none !important;
+    display: block !important;
   }
+
+  iframe {
+    border: none !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }  
+
 </style>
 </head>
 """
@@ -115,4 +132,4 @@ html_modificado = html.replace("<body>", f"<body>\n{header_html}\n{descricao_age
 with open(html_path, 'w', encoding='utf-8') as f:
     f.write(html_modificado)
 
-print("✅ descricao-agentes.html gerado")
+print("descricao-agentes.html gerado")

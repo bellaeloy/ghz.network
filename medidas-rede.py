@@ -374,7 +374,7 @@ print("Imagem 'rede_comunidades.png' gerada com sucesso.")
 # 5. Painel HTML das medidas
 painel_medidas_html = f"""
 <div style="max-width: 800px; margin: 20px auto 40px auto;
-            background: rgba(255,255,255,0.95); padding: 25px 30px; 
+            background: transparent; padding: 25px 30px; 
             border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 13px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0); color: #333;">
 
@@ -391,7 +391,7 @@ painel_medidas_html = f"""
     
     <div style="text-align: center;">
       <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Agentes" style="width: 50px; margin-top: 5px; margin-bottom: 5px;">
-      <div>Número de agentes</div>
+      <div>Número de agentes primários</div>
       <div style="font-size: 30px; font-weight: bold;">{len(lista_unica_agentes)}</div>
     </div>
 
@@ -528,6 +528,27 @@ html_final = f"""
 {painel_medidas_html}
 {footer_html}
 """
+
+
+# Adiciona CSS para fundo com opacidade
+css_fundo = """
+<style>
+  body {
+    background: 
+      linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), 
+      url('https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/fundo-pag-medidas.gif') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+  }
+</style>
+</head>
+"""
+
+# Substitui o fechamento </head> pelo CSS + fechamento
+html_final = html_final.replace("</head>", css_fundo)
+
 
 # 8. Salvar o HTML
 with open("medidas-rede.html", "w", encoding="utf-8") as f:

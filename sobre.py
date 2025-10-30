@@ -5,6 +5,8 @@ nome = "Isabella Cavalcanti"
 email = "isabellaeloy.be@gmail.com"
 github = "https://github.com/bellaeloy"
 imagem_fundo = "https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/bg_rede.jpg"
+orcid = "https://orcid.org/0000-0002-6462-5849"
+lattes = "http://lattes.cnpq.br/0165490242445275"
 
 # CONTEÚDO CENTRAL DA PÁGINA "SOBRE"
 sobre_html = f"""
@@ -25,6 +27,10 @@ sobre_html = f"""
               color: #333;
               max-width: 800px;
               width: 100%;">
+
+    
+    <!-- Imagem única ocupando 30% da largura da caixa -->
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="icone_redeGHZ" style="width: 30%; display: block; margin: 0 auto 15px auto; border-radius: 4px;">
 
     <h1 style="text-align: center; font-size: 26px; margin-bottom: 25px; font-weight: 700;">Sobre a Rede GHZ</h1>
 
@@ -64,12 +70,16 @@ sobre_html = f"""
     <h2 style="text-align: center; font-size: 20px; margin: 35px 0 15px;">Objetivo Geral da Pesquisa</h2>
 
     <blockquote style="font-size: 15px; line-height: 1.6; color: #333; font-style: italic; border-left: 4px solid #0066cc; padding-left: 15px; margin-bottom: 35px;">
-      Explorar como a <strong>abertura da governança de dados à coletividade</strong> pode contribuir para a construção de um 
-      <strong>embasamento informacional mais justo, equitativo e participativo</strong> na formulação de 
-      <strong>políticas públicas urbanas</strong>.
+      Explorar como a abertura da governança de dados à coletividade pode contribuir para a construção de um 
+      embasamento informacional mais justo, equitativo e participativo na formulação de 
+      políticas públicas urbanas.
     </blockquote>
 
     <hr style="border: none; border-top: 1px solid #ccc; margin: 40px 0;">
+
+    <!-- Imagem única ocupando 30% da largura da caixa -->
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="icone_contato" style="width: 30%; display: block; margin: 0 auto 15px auto; border-radius: 4px;">
+
 
     <h2 style="text-align: center; font-size: 20px; margin-bottom: 20px;">Contato</h2>
 
@@ -78,6 +88,8 @@ sobre_html = f"""
       <p style="font-size: 15px; color: #555; margin-bottom: 25px;">Pesquisadora e desenvolvedora da Rede GHZ</p>
       <p><strong>E-mail:</strong> <a href="mailto:{email}" style="color: #0066cc; text-decoration: none;">{email}</a></p>
       <p><strong>GitHub:</strong> <a href="{github}" target="_blank" style="color: #0066cc; text-decoration: none;">{github}</a></p>
+      <p><strong>Orcid:</strong> <a href="{orcid}" target="_blank" style="color: #0066cc; text-decoration: none;">{orcid}</a></p>
+      <p><strong>Lattes:</strong> <a href="{lattes}" target="_blank" style="color: #0066cc; text-decoration: none;">{lattes}</a></p>
     </div>
 
   </div>
