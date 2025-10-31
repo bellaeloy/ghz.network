@@ -30,7 +30,7 @@ sobre_html = f"""
 
     
     <!-- Imagem única ocupando 30% da largura da caixa -->
-    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="icone_redeGHZ" style="width: 30%; display: block; margin: 0 auto 15px auto; border-radius: 4px;">
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/rede.png" alt="icone_redeGHZ" style="width: 30%; display: block; margin: 0 auto 15px auto; border-radius: 4px;">
 
     <h1 style="text-align: center; font-size: 26px; margin-bottom: 25px; font-weight: 700;">Sobre a Rede GHZ</h1>
 
@@ -78,14 +78,14 @@ sobre_html = f"""
     <hr style="border: none; border-top: 1px solid #ccc; margin: 40px 0;">
 
     <!-- Imagem única ocupando 30% da largura da caixa -->
-    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="icone_contato" style="width: 30%; display: block; margin: 0 auto 15px auto; border-radius: 4px;">
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/onda.png" alt="icone_contato" style="width: 80%; display: block; margin: 0 auto 15px auto; border-radius: 4px;">
 
 
-    <h2 style="text-align: center; font-size: 20px; margin-bottom: 20px;">Contato</h2>
+    <h2 style="text-align: center; font-size: 20px; margin-bottom: 20px;">Entre em contato!</h2>
 
     <div style="text-align: center;">
-      <strong style="font-size: 18px; display: block; margin-bottom: 10px;">{nome}</strong>
-      <p style="font-size: 15px; color: #555; margin-bottom: 25px;">Pesquisadora e desenvolvedora da Rede GHZ</p>
+      <strong style="font-size: 16px; display: block; margin-bottom: 10px;">{nome}</strong>
+      <p style="font-size: 14px; color: #555; margin-bottom: 25px;">Pesquisadora e desenvolvedora da Rede GHZ</p>
       <p><strong>E-mail:</strong> <a href="mailto:{email}" style="color: #0066cc; text-decoration: none;">{email}</a></p>
       <p><strong>GitHub:</strong> <a href="{github}" target="_blank" style="color: #0066cc; text-decoration: none;">{github}</a></p>
       <p><strong>Orcid:</strong> <a href="{orcid}" target="_blank" style="color: #0066cc; text-decoration: none;">{orcid}</a></p>

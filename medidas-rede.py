@@ -373,14 +373,13 @@ print("Imagem 'rede_comunidades.png' gerada com sucesso.")
 
 # 5. Painel HTML das medidas
 painel_medidas_html = f"""
-<div style="max-width: 800px; margin: 20px auto 40px auto;
-            background: transparent; padding: 25px 30px; 
+<div style="max-width: 800px; margin: 20px auto 40px auto; background: transparent; padding: 25px 30px; 
             border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 13px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0); color: #333;">
 
   <strong style="font-size: 18px; display: block; margin-bottom: 20px;">Medidas da Rede</strong>
 
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
   <strong style = "font-size: 16px;">Propriedades básicas</strong>
   
   <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
@@ -390,40 +389,40 @@ painel_medidas_html = f"""
   <div style="display: flex; justify-content: space-between; margin-top: 15px;">
     
     <div style="text-align: center;">
-      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Agentes" style="width: 50px; margin-top: 5px; margin-bottom: 5px;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/agente.png" alt="Agentes" style="width: 50px; margin-top: 5px; margin-bottom: 5px;">
       <div>Número de agentes primários</div>
-      <div style="font-size: 30px; font-weight: bold;">{len(lista_unica_agentes)}</div>
+      <div style="font-size: 25px; font-weight: bold;">{len(lista_unica_agentes)}</div>
     </div>
 
     <div style="text-align: center;">
-      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Nós" style="width: 50px; margin-top: 5px;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/nos.png" alt="Nós" style="width: 50px; margin-top: 5px;">
       <div>Número de nós</div>
-      <div style="font-size: 30px; font-weight: bold;">{num_nodes}</div>
+      <div style="font-size: 25px; font-weight: bold;">{num_nodes}</div>
     </div>
 
     <div style="text-align: center;">
-      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Arestas" style="width: 50px; margin-top: 5px;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/arestas.png" alt="Arestas" style="width: 50px; margin-top: 5px;">
       <div>Número de arestas</div>
-      <div style="font-size: 30px; font-weight: bold;">{num_arestas}</div>
+      <div style="font-size: 25px; font-weight: bold;">{num_arestas}</div>
     </div>
 
     <div style="text-align: center;">
-      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Grau" style="width: 50px; margin-top: 5px;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/net.png" alt="Grau" style="width: 50px; margin-top: 5px;">
       <div>Grau médio</div>
-      <div style="font-size: 30px; font-weight: bold;">{grau_medio:.3f}</div>
+      <div style="font-size: 25px; font-weight: bold;">{grau_medio:.3f}</div>
     </div>
 
     <div style="text-align: center;">
-      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" alt="Densidade" style="width: 50px; margin-top: 5px;">
+      <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/rede.png" alt="Densidade" style="width: 50px; margin-top: 5px;">
       <div>Densidade</div>
-      <div style="font-size: 30px; font-weight: bold;">{densidade:.3f}</div>
+      <div style="font-size: 25px; font-weight: bold;">{densidade:.3f}</div>
     </div>
 
   </div>
 </div>
 
 
-<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+<div style=" line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
   <strong style = "font-size: 16px;">Estrutura e conectividade</strong>
   
   <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
@@ -435,15 +434,14 @@ painel_medidas_html = f"""
 
     <!-- Indicadores em formato de texto normal -->
   <p style="margin: 0; color: #333;">
-    Componentes desconectados: <strong style="font-size: 13px;">{comp_desconectados}</strong><br>
-    Nós do maior componente: <strong style="font-size: 13px;">{nos_maior_componente}</strong>
+    Componentes desconectados: <style="font-size: 13px;">{comp_desconectados}<br>
+    Nós do maior componente: <style="font-size: 13px;">{nos_maior_componente}
   </p>
   <p></p>
-
   </div>
 
 
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
     <strong style = "font-size: 16px;">Centralidade e influência</strong><br>
 
     <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
@@ -456,7 +454,7 @@ painel_medidas_html = f"""
     Menor centralidade: {menor_no} ({menor_valor:.3f})
   </div>
 
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
     <strong style="font-size: 16px;">Betweenness (intermediação)</strong><br>
     
     <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
@@ -470,7 +468,7 @@ painel_medidas_html = f"""
   </div>
 
 
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
     <strong style = "font-size: 16px;">Closeness (proximidade)</strong><br>
 
     <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
@@ -483,7 +481,7 @@ painel_medidas_html = f"""
     {"<br>".join([f"{no}: {valor:.4f}" for no, valor in top5_closeness])}
   </div>
 
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
     <strong style="font-size: 16px;">Distribuição de grau</strong><br>
 
     <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
@@ -492,13 +490,13 @@ painel_medidas_html = f"""
 
     <!-- Imagem única ocupando 100% da largura da caixa -->
     <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/histograma_grau.png" alt="histograma grau versus nós" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
-    Assortatividade: <strong>{assortatividade:.3f}</strong><br>
-    Média de grau: <strong>{media_grau:.2f}</strong><br>
-    Variância de grau: <strong>{variancia_grau:.2f}</strong>
+    Assortatividade: {assortatividade:.3f}<br>
+    Média de grau: {media_grau:.2f}<br>
+    Variância de grau:{variancia_grau:.2f}
   </div>
 
 
-  <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 0; border-radius: 6px; background: #fff; width: 100%;">
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 0; border-radius: 6px; background: #fff; width: 100%;">
     <strong style = "font-size: 16px;">Comunidades</strong><br>
 
     <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
