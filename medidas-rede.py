@@ -377,7 +377,7 @@ painel_medidas_html = f"""
             border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 13px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0); color: #333;">
 
-  <strong style="font-size: 18px; display: block; margin-bottom: 20px;">Medidas da Rede</strong>
+  <strong style="font-size: 22px; display: block; margin-bottom: 20px;">Medições da Rede</strong>
 
   <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
   <strong style = "font-size: 16px;">Propriedades básicas</strong>
@@ -421,7 +421,6 @@ painel_medidas_html = f"""
   </div>
 </div>
 
-
 <div style=" line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
   <strong style = "font-size: 16px;">Estrutura e conectividade</strong>
   
@@ -439,7 +438,6 @@ painel_medidas_html = f"""
   </p>
   <p></p>
   </div>
-
 
   <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
     <strong style = "font-size: 16px;">Centralidade e influência</strong><br>
@@ -512,6 +510,49 @@ painel_medidas_html = f"""
 </div>
 """
 
+painel_analises_html = f"""
+<div style="max-width: 800px; margin: 20px auto 40px auto; background: transparent; padding: 25px 30px; 
+            border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 13px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0); color: #333;">
+
+  <strong style="font-size: 22px; display: block; margin-bottom: 20px;">Interpretações e Contexto</strong>
+
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; 
+              margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    
+    <strong style="font-size: 16px;">Atuação</strong>
+    
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+      <em>Mapeamento das áreas de atuação dos agentes primários.</em>
+    </p>
+    
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" 
+         alt="mapa-atuacao" 
+         style="width: 100%; border-radius: 4px; margin-top: 10px;">
+
+  </div>
+
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; 
+              margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    
+    <strong style="font-size: 16px;">Financiadores</strong>
+    
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+      <em>Agentes primários e seus financiadores.</em>
+    </p>
+    
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" 
+         alt="mapa-atuacao" 
+         style="width: 100%; border-radius: 4px; margin-top: 10px;">
+         
+  </div>
+  
+
+</div>
+"""
+
+
+
 
 # 6. Carregar header e footer
 with open("header.html", "r", encoding="utf-8") as h:
@@ -524,6 +565,7 @@ with open("footer.html", "r", encoding="utf-8") as f:
 html_final = f"""
 {header_html}
 {painel_medidas_html}
+{painel_analises_html}
 {footer_html}
 """
 
