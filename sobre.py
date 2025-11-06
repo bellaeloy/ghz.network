@@ -4,7 +4,7 @@ from pathlib import Path
 nome = "Isabella Cavalcanti"
 email = "isabellaeloy.be@gmail.com"
 github = "https://github.com/bellaeloy"
-imagem_fundo = "https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/bg_rede.jpg"
+imagem_fundo = "https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/fundo-pag-medidas.gif"
 orcid = "https://orcid.org/0000-0002-6462-5849"
 lattes = "http://lattes.cnpq.br/0165490242445275"
 
@@ -19,7 +19,7 @@ sobre_html = f"""
              font-family: 'Montserrat', sans-serif;
              padding: 60px 20px;">
 
-  <div style="background: rgba(255,255,255,0.94);
+  <div style="background: #ffffff;
               padding: 50px 60px;
               border-radius: 10px;
               text-align: left;
