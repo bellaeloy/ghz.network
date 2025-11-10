@@ -507,6 +507,29 @@ painel_medidas_html = f"""
     Modularidade: {modularidade:.3f}
   </div>
 
+   
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 0; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Síntese</strong><br>
+
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>A rede de agentes sociais GHZ analisada apresenta uma <strong>dinâmica ampla</strong>, mas <strong>esparsa</strong>, composta por <strong>809 nós</strong>, incluindo 35 agentes primários, e 1.017 conexões. Apesar do <strong>baixo grau médio (2,51)</strong> e da densidade reduzida (0,003), a rede é <strong>quase totalmente conectada</strong>, com 805 nós formando um único componente, o que permite circulação de informações, ainda que de forma desigual entre os agentes.</em>
+    </p>
+
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>A centralidade evidencia que nem todos os atores institucionais possuem influência efetiva. A Casa Fluminense surge como hub central, conectando comunidades e controlando fluxos de informação, enquanto atores formais, como o Governo do Rio de Janeiro, apresentam posições periféricas. A análise de betweenness destaca outros intermediadores estratégicos, como Open Knowledge Brasil e DataLabe, que atuam como pontes entre subgrupos, e a proximidade revela nós capazes de alcançar rapidamente a rede, como Open Society Foundations e Fundação Ford, ideais para disseminação de conhecimento.</em>
+    </p>
+
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>A rede é desassortativa (-0,523) e apresenta <strong>grande desigualdade de grau</strong>, seguindo padrões de lei de potência: <strong>poucos hubs concentram a maioria das conexões</strong>, enquanto a maioria dos nós permanece periférica. Além disso, a rede organiza-se em 15 comunidades com alta modularidade (0,737), evidenciando <strong>grupos coesos e relativamente isolados</strong>, integrados por hubs estratégicos.</em>
+    </p>
+
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>Em síntese, a rede combina <strong>comunidades densas com hubs integradores</strong>, nos quais organizações de advocacy e conhecimento aberto assumem papel central, enquanto atores institucionais formais ocupam posições periféricas. A configuração sugere que a difusão de informação e a coordenação social dependem fortemente de um pequeno conjunto de agentes estratégicos, capazes de conectar, integrar e dinamizar toda a rede.</em>
+    </p>
+
+
+  </div> 
+
 </div>
 """
 
@@ -541,13 +564,10 @@ painel_analises_html = f"""
       <em>Agentes primários e seus financiadores.</em>
     </p>
     
-    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/img1.png" 
-         alt="mapa-atuacao" 
-         style="width: 100%; border-radius: 4px; margin-top: 10px;">
-         
+    <iframe src="financiadores_rede.html" width="100%" height="600" style="border: none;"></iframe>
+
   </div>
   
-
 </div>
 """
 
