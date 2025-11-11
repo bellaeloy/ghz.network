@@ -526,8 +526,6 @@ painel_medidas_html = f"""
     <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
     <em>Em síntese, a rede combina <strong>comunidades densas com hubs integradores</strong>, nos quais organizações de advocacy e conhecimento aberto assumem papel central, enquanto atores institucionais formais ocupam posições periféricas. A configuração sugere que a difusão de informação e a coordenação social dependem fortemente de um pequeno conjunto de agentes estratégicos, capazes de conectar, integrar e dinamizar toda a rede.</em>
     </p>
-
-
   </div> 
 
 </div>
@@ -567,6 +565,31 @@ painel_analises_html = f"""
     <iframe src="financiadores_rede.html" width="100%" height="600" style="border: none;"></iframe>
 
   </div>
+  
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; 
+              margin-bottom: 20px; border-radius: 6px; background: #fff; width: 100%;">
+    
+    <strong style="font-size: 16px;">Mapeamento temático dos agentes</strong>
+    
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+      <em>Identificação de correspondências entre agentes e campos temáticos</em>
+    </p>
+    
+    <img src="https://raw.githubusercontent.com/bellaeloy/ghz.network/main/imagens/temas.gif" 
+         alt="temas-atuacao" 
+         style="width: 100%; border-radius: 4px; margin-top: 10px;">
+
+  </div>
+
+  <div style="line-height: 1.5; border: 1px solid #ccc; padding: 15px; margin-bottom: 0; border-radius: 6px; background: #fff; width: 100%;">
+    <strong style = "font-size: 16px;">Síntese</strong><br>
+
+    <p style="margin-top: 10px; margin-bottom: 15px; color: #555;">
+    <em>A ADD TEXTO</em>
+    </p>
+
+  </div> 
+
   
 </div>
 """
