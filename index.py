@@ -206,7 +206,6 @@ legenda_html = f"""
   <strong>Visualização da rede</strong><br>
   <button onclick="tiposAgente()" style="margin-top: 5px; color: #333;"> Tipo de agente </button><br>
   <button onclick="tiposConexao()" style="margin-top: 5px; color: #333;"> Relações </button><br>
-  <button onclick="temasPrincipais()" style="margin-top: 5px; color: #333;"> Temas </button>
 </div>
 
 <script>
